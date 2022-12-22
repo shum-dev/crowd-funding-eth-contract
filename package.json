@@ -9,7 +9,6 @@
   "author": "shum",
   "license": "ISC",
   "dependencies": {
-    "fs-extra": "^11.1.0",
     "ganache-cli": "^6.12.2",
     "mocha": "^10.2.0",
     "solc": "^0.4.17",
