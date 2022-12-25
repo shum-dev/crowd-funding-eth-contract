@@ -30,5 +30,3 @@ const deploy = async () => {
 };
 
 deploy();
-
-// 0x4C3788310dDbAe5D154BD11E52D632656e638F51
