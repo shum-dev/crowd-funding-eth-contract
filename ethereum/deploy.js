@@ -1,8 +1,6 @@
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 const Web3 = require("web3");
-// const { interface, bytecode } = require("./compile");
 const compiledFactory = require("./build/CampaignFactory.json");
-// const compiledCampaign = require("./build/Campaign.json");
 
 const INFURA_SEPLOIA =
   "https://sepolia.infura.io/v3/1b6fce04300041e0afa3058d4d2d6936";
