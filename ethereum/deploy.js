@@ -4,11 +4,12 @@ const Web3 = require("web3");
 const compiledFactory = require("./build/CampaignFactory.json");
 // const compiledCampaign = require("./build/Campaign.json");
 
-const SEPLOIA = "https://sepolia.infura.io/v3/1b6fce04300041e0afa3058d4d2d6936";
+const INFURA_SEPLOIA =
+  "https://sepolia.infura.io/v3/1b6fce04300041e0afa3058d4d2d6936";
 
 const provider = new HDWalletProvider(
   "unknown embark balcony yard elevator catch jazz health enrich away few rabbit",
-  SEPLOIA
+  INFURA_SEPLOIA
 );
 
 const web3 = new Web3(provider);
