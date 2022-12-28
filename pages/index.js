@@ -29,8 +29,13 @@ export default function IndexPage({ campaigns }) {
   return (
     <div>
       <Header as="h1">Open Campaigns</Header>
+      <Button
+        content="Create Campaign"
+        icon="add circle"
+        primary
+        floated="right"
+      />
       <Card.Group items={items} />
-      <Button content="Create Campaign" icon="add circle" primary />
     </div>
   );
 }
