@@ -1,10 +1,13 @@
 import { useState } from "react";
+import { useRouter } from "next/router";
 import { Button, Header, Form, Input, Message } from "semantic-ui-react";
 
 import campaignFactory from "ethereum/campaignFactory";
 import web3 from "ethereum/web3";
 
 export default function CampaignsNewPage() {
+  const router = useRouter();
+
   const [value, setValue] = useState("");
   const [error, setError] = useState(null);
   const [isLoading, setLoading] = useState(false);
@@ -25,6 +28,8 @@ export default function CampaignsNewPage() {
       await campaignFactory.methods
         .createCampaign(value)
         .send({ from: accounts[0] });
+
+      router.push("/");
     } catch (err) {
       setError(err.message);
     } finally {

@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
-import { Card, Button, Header } from "semantic-ui-react";
+import { Button, Header } from "semantic-ui-react";
+import Link from "next/link";
 
-import campaignFactory from "../ethereum/campaignFactory";
+import { CardList } from "components/CardList";
+import campaignFactory from "ethereum/campaignFactory";
 
 export default function IndexPage({ campaigns }) {
   const [campaignsList, setCampaignsList] = useState(campaigns || []);
@@ -18,32 +20,27 @@ export default function IndexPage({ campaigns }) {
     getExistingCampaign();
   }, []);
 
-  // TODO memoize
-  const items = campaignsList.map((address) => ({
-    header: address,
-    description: <a>View Campaign</a>,
-    fluid: true, // every card takes all the space in the row
-  }));
-
-  console.log("Index page re-renders: ", { campaignsList });
   return (
-    <div>
+    <>
       <Header as="h1">Open Campaigns</Header>
-      <Button
-        content="Create Campaign"
-        icon="add circle"
-        primary
-        floated="right"
-      />
-      <Card.Group items={items} />
-    </div>
+
+      <Link href={'/campaigns/new'}>
+        <Button
+          style={{ marginLeft: "1rem" }}
+          content="Create Campaign"
+          icon="add circle"
+          primary
+          floated="right"
+        />
+      </Link>
+
+      <CardList campaignsList={campaignsList} />
+    </>
   );
 }
 
 IndexPage.getInitialProps = async () => {
   const campaigns = await campaignFactory.methods.getDeployedCampaigns().call();
-
-  console.log("Get initial props: ", { campaigns });
 
   return {
     campaigns,

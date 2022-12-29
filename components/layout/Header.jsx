@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Menu, Container } from "semantic-ui-react";
+import Link from "next/link";
 
 import styles from "./Header.module.css";
 
@@ -13,30 +14,18 @@ export const Header = () => {
   return (
     <Menu inverted className={styles.container}>
       <Container>
-        <Menu.Item
-          name="crowdCoin"
-          active={activeItem === "crowdCoin"}
-          onClick={handleItemClick}
-        >
+        <Link href={"/"} className="item">
           CrowdCoin
-        </Menu.Item>
+        </Link>
 
         <Menu.Menu position="right">
-          <Menu.Item
-            name="campaigns"
-            active={activeItem === "campaigns"}
-            onClick={handleItemClick}
-          >
+          <Link href={"/"} className="item">
             Campaigns
-          </Menu.Item>
+          </Link>
 
-          <Menu.Item
-            name="add"
-            active={activeItem === "add"}
-            onClick={handleItemClick}
-          >
+          <Link href={"/campaigns/new"} className="item">
             +
-          </Menu.Item>
+          </Link>
         </Menu.Menu>
       </Container>
     </Menu>
