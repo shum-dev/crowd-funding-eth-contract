@@ -1,9 +1,4 @@
 .container {
-  font-weight: 700;
-  font-size: 1.28571429em;
-  margin-top: -0.21425em;
-  line-height: 1.28571429em;
-
   overflow: hidden;
   text-overflow: ellipsis;
 }

@@ -1,14 +1,13 @@
+require("dotenv").config();
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 const Web3 = require("web3");
+
 const compiledFactory = require("./build/CampaignFactory.json");
 
-const INFURA_SEPLOIA =
-  "https://sepolia.infura.io/v3/1b6fce04300041e0afa3058d4d2d6936";
+const INFURA_SEPOLIA = process.env.INFURA_SEPOLIA;
+const MNEMONIC = process.env.MNEMONIC;
 
-const provider = new HDWalletProvider(
-  "unknown embark balcony yard elevator catch jazz health enrich away few rabbit",
-  INFURA_SEPLOIA
-);
+const provider = new HDWalletProvider(MNEMONIC, INFURA_SEPOLIA);
 
 const web3 = new Web3(provider);
 
@@ -23,7 +22,7 @@ const deploy = async () => {
     .deploy({ data: compiledFactory.bytecode })
     .send({ gas: "1000000", from: accounts[0] });
 
-  console.log("Instance of the contract address: ", result.options.address);
+  console.log("Instance of the contract(address): ", result.options.address);
 
   provider.engine.stop();
 };

@@ -43,6 +43,10 @@ contract Campaign {
 
     function contribute() public payable {
         require(msg.value >= minimumContribution);
+
+        // sender can contribute only once
+        require(!contributors[msg.sender]);
+
         contributors[msg.sender] = true;
         contributersCount++;
     }
@@ -92,5 +96,19 @@ contract Campaign {
         // transfer money to recipient + mark request as true
         currentRequest.recipient.transfer(currentRequest.value);
         currentRequest.complete = true;
+    }
+
+    function getSummary() view public returns(uint256, uint256, uint256, uint256, address) {
+      return (
+        minimumContribution,
+        this.balance,
+        requests.length,
+        contributersCount,
+        manager
+      );
+    }
+
+    function getRequestsCount() public view returns(uint256) {
+      return requests.length;
     }
 }

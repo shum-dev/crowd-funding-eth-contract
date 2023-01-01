@@ -5,17 +5,11 @@ import Link from "next/link";
 import styles from "./Header.module.css";
 
 export const Header = () => {
-  const [activeItem, setActiveItem] = useState("");
-
-  const handleItemClick = (e, { name }) => {
-    setActiveItem(name);
-  };
-
   return (
     <Menu inverted className={styles.container}>
       <Container>
         <Link href={"/"} className="item">
-          CrowdCoin
+          Home
         </Link>
 
         <Menu.Menu position="right">

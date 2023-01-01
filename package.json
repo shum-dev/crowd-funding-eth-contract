@@ -10,6 +10,8 @@
   "author": "shum",
   "license": "ISC",
   "dependencies": {
+    "@truffle/hdwallet-provider": "^2.1.4",
+    "dotenv": "^16.0.3",
     "ganache-cli": "^6.12.2",
     "mocha": "^10.2.0",
     "next": "^13.1.1",
@@ -17,7 +19,7 @@
     "react-dom": "^18.2.0",
     "semantic-ui-css": "^2.5.0",
     "semantic-ui-react": "^2.1.4",
-    "solc": "^0.4.17",
+    "solc": "0.4.17",
     "web3": "^1.8.1"
   }
 }

@@ -1,7 +1,6 @@
 import Web3 from "web3";
 
-const INFURA_SEPLOIA =
-  "https://sepolia.infura.io/v3/1b6fce04300041e0afa3058d4d2d6936";
+const INFURA_SEPLOIA = process.env.INFURA_SEPOLIA;
 
 let web3;
 
