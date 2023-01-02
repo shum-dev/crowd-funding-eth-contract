@@ -1,16 +1,31 @@
-import { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { Button, Message, Header } from "semantic-ui-react";
+import { NextPageContext } from "next";
+import { Button, Header } from "semantic-ui-react";
 
 import { RequestsTable } from "components/RequestsTable";
 
 import getCampaign from "ethereum/campaign";
 
-export default function CampaignRequestsPage({ requests, contributorsCount }) {
+type FundRequest = {
+  description: string;
+  complete: boolean;
+  value: string;
+  recipient: string;
+  approvalCount: string;
+};
+
+type Props = {
+  requests: FundRequest[];
+  contributorsCount: string;
+};
+
+export default function CampaignRequestsPage({
+  requests,
+  contributorsCount,
+}: Props) {
   const router = useRouter();
   const { address } = router.query;
-
 
   return (
     <>
@@ -30,17 +45,18 @@ export default function CampaignRequestsPage({ requests, contributorsCount }) {
         contributorsCount={contributorsCount}
         requests={requests}
       />
-
     </>
   );
 }
 
-CampaignRequestsPage.getInitialProps = async (ctx) => {
+CampaignRequestsPage.getInitialProps = async (ctx: NextPageContext) => {
   const { address } = ctx.query;
 
-  const campaign = getCampaign(address);
+  const campaign = getCampaign(address as string);
   const contributorsCount = await campaign.methods.contributersCount().call();
-  const requestCount = await campaign.methods.getRequestsCount().call();
+  const requestCount = (await campaign.methods
+    .getRequestsCount()
+    .call()) as number;
 
   const pendingRequests = Array.from({ length: requestCount }).map((_, index) =>
     campaign.methods.requests(index).call()

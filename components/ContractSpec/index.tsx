@@ -4,7 +4,17 @@ import { Card, Button } from "semantic-ui-react";
 
 import web3 from "ethereum/web3";
 
-export const ContractSpec = ({ contractSpec }) => {
+type Props = {
+  contractSpec: {
+    manager: string;
+    minimumContribution: string;
+    requestCount: string;
+    contributorsCount: string;
+    balance: string;
+  };
+};
+
+export const ContractSpec = ({ contractSpec }: Props) => {
   const router = useRouter();
   const { address } = router.query;
 

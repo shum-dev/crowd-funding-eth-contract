@@ -4,7 +4,11 @@ import Link from "next/link";
 import { CardList } from "components/CardList";
 import campaignFactory from "ethereum/campaignFactory";
 
-export default function IndexPage({ campaigns }) {
+type Props = {
+  campaigns: string[];
+};
+
+export default function IndexPage({ campaigns }: Props) {
   return (
     <>
       <Header as="h1">Open Campaigns</Header>

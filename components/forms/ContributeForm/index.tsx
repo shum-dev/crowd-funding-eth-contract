@@ -1,22 +1,27 @@
-import { useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { useRouter } from "next/router";
-import { Button, Header, Form, Input, Message } from "semantic-ui-react";
+import { Button, Form, Input, Message } from "semantic-ui-react";
 
-import campaignFactory from "ethereum/campaignFactory";
+import getCampaign from "ethereum/campaign";
 import web3 from "ethereum/web3";
 
-export const CreateCampaignForm = () => {
+type Props = {
+  onSuccess: () => void;
+};
+
+export const ContributeForm = ({ onSuccess }: Props) => {
   const router = useRouter();
+  const { address } = router.query as { address: string };
 
   const [value, setValue] = useState("");
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
 
-  const onSubmit = async (e) => {
+  const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     setError("");
@@ -24,13 +29,14 @@ export const CreateCampaignForm = () => {
 
     try {
       const accounts = await web3.eth.getAccounts();
+      const campaign = getCampaign(address);
+      await campaign.methods
+        .contribute()
+        .send({ from: accounts[0], value: web3.utils.toWei(value, "ether") });
 
-      await campaignFactory.methods
-        .createCampaign(value)
-        .send({ from: accounts[0] });
-
-      router.push("/");
-    } catch (err) {
+      onSuccess();
+      setValue("");
+    } catch (err: any) {
       setError(err.message);
     } finally {
       setLoading(false);
@@ -40,9 +46,9 @@ export const CreateCampaignForm = () => {
   return (
     <Form onSubmit={onSubmit} error={Boolean(error)}>
       <Form.Field>
-        <label>Minimum Contribution</label>
+        <label>Amount to Contribute</label>
         <Input
-          label="wei"
+          label="ether"
           labelPosition="right"
           value={value}
           onChange={handleChange}
@@ -52,7 +58,7 @@ export const CreateCampaignForm = () => {
       <Message error header="Oops!" content={error} />
 
       <Button primary loading={isLoading} disabled={isLoading || !value}>
-        Create!
+        Contribute!
       </Button>
     </Form>
   );

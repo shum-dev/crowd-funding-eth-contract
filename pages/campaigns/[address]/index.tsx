@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { NextPageContext } from "next";
 import { Header, Grid } from "semantic-ui-react";
 
 import { ContributeForm } from "components/forms/ContributeForm";
@@ -7,13 +8,21 @@ import { ContractSpec } from "components/ContractSpec";
 
 import getCampaign from "ethereum/campaign";
 
+type Props = {
+  minimumContribution: string;
+  balance: string;
+  requestCount: string;
+  contributorsCount: string;
+  manager: string;
+};
+
 export default function CampaignPage({
   minimumContribution,
   balance,
   requestCount,
   contributorsCount,
   manager,
-}) {
+}: Props) {
   const router = useRouter();
   const { address } = router.query;
 
@@ -26,8 +35,8 @@ export default function CampaignPage({
   });
 
   const onSuccess = async () => {
-    const campaign = getCampaign(address);
-    const summary = await campaign.methods.getSummary().call();
+    const campaign = getCampaign(address as string);
+    const summary = (await campaign.methods.getSummary().call()) as {};
 
     const [
       minimumContribution,
@@ -35,7 +44,7 @@ export default function CampaignPage({
       requestCount,
       contributorsCount,
       manager,
-    ] = Object.values(summary);
+    ] = Object.values(summary) as string[];
 
     setContractSpec({
       minimumContribution,
@@ -63,11 +72,11 @@ export default function CampaignPage({
   );
 }
 
-CampaignPage.getInitialProps = async (ctx) => {
+CampaignPage.getInitialProps = async (ctx: NextPageContext) => {
   const { address } = ctx.query;
 
-  const campaign = getCampaign(address);
-  const summary = await campaign.methods.getSummary().call();
+  const campaign = getCampaign(address as string);
+  const summary = (await campaign.methods.getSummary().call()) as string[];
 
   return {
     minimumContribution: summary[0],

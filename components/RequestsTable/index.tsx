@@ -1,32 +1,47 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import { Button, Message, Table } from "semantic-ui-react";
 
 import getCampaign from "ethereum/campaign";
 import web3 from "ethereum/web3";
 
-export const RequestsTable = ({ requests, contributorsCount }) => {
-  const router = useRouter();
-  const { address } = router.query;
+type FundRequest = {
+  description: string;
+  complete: boolean;
+  value: string;
+  recipient: string;
+  approvalCount: string;
+};
 
-  const [state, setState] = useState(requests);
+type Props = {
+  requests: FundRequest[];
+  contributorsCount: string;
+};
+
+export const RequestsTable = ({ requests, contributorsCount }: Props) => {
+  const router = useRouter();
+  const { address } = router.query as { address: string };
+
+  const [state, setState] = useState<FundRequest[]>(requests);
   const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState({});
+  const [isLoading, setIsLoading] = useState<{ [key: number]: boolean }>({});
 
   const refreshState = async () => {
     const campaign = getCampaign(address);
-    const requestCount = await campaign.methods.getRequestsCount().call();
+    const requestCount = (await campaign.methods
+      .getRequestsCount()
+      .call()) as number;
 
     const pendingRequests = Array.from({ length: requestCount }).map(
       (_, index) => campaign.methods.requests(index).call()
     );
 
-    const requests = await Promise.all(pendingRequests);
+    const requests = (await Promise.all(pendingRequests)) as FundRequest[];
+
     setState(requests);
   };
 
-  const handleApprove = async (id) => {
+  const handleApprove = async (id: number) => {
     setIsLoading({ ...isLoading, [id]: true });
     setError("");
 
@@ -36,14 +51,14 @@ export const RequestsTable = ({ requests, contributorsCount }) => {
       const accounts = await web3.eth.getAccounts();
       await campaign.methods.approveRequest(id).send({ from: accounts[0] });
       await refreshState();
-    } catch (error) {
+    } catch (error: any) {
       setError(error.message);
     } finally {
       setIsLoading((prevState) => ({ ...prevState, [id]: false }));
     }
   };
 
-  const handleFinalize = async (id) => {
+  const handleFinalize = async (id: number) => {
     setIsLoading({ ...isLoading, [id]: true });
     setError("");
 
@@ -53,7 +68,7 @@ export const RequestsTable = ({ requests, contributorsCount }) => {
       const accounts = await web3.eth.getAccounts();
       await campaign.methods.finalizeRequest(id).send({ from: accounts[0] });
       await refreshState();
-    } catch (error) {
+    } catch (error: any) {
       setError(error.message);
     } finally {
       setIsLoading((prevState) => ({ ...prevState, [id]: false }));
@@ -80,7 +95,7 @@ export const RequestsTable = ({ requests, contributorsCount }) => {
         <Body>
           {state.map((request, index) => {
             const isReadyToFinalize =
-              request.approvalCount / contributorsCount > 0.5;
+              Number(request.approvalCount) / Number(contributorsCount) > 0.5;
             return (
               <Row
                 key={request.description + index}

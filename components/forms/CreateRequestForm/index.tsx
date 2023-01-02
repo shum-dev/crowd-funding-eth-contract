@@ -1,15 +1,7 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import {
-  Header,
-  Card,
-  Grid,
-  Button,
-  Form,
-  Message,
-  Input,
-} from "semantic-ui-react";
+import { Button, Form, Message, Input } from "semantic-ui-react";
 
 import getCampaign from "ethereum/campaign";
 import web3 from "ethereum/web3";
@@ -27,12 +19,12 @@ export const CreateRequestForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     setIsLoading(true);
     setError("");
-    const campaign = getCampaign(address);
+    const campaign = getCampaign(address as string);
 
     try {
       const accounts = await web3.eth.getAccounts();
@@ -42,7 +34,7 @@ export const CreateRequestForm = () => {
         .send({ from: accounts[0] });
 
       router.push(`/campaigns/${address}/requests`);
-    } catch (err) {
+    } catch (err: any) {
       setError(err.message);
     } finally {
       setIsLoading(false);

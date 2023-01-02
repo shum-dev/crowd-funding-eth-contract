@@ -3,7 +3,11 @@ import Link from "next/link";
 
 import styles from "./index.module.css";
 
-export const CardList = ({ campaignsList }) => {
+type Props = {
+  campaignsList: string[];
+};
+
+export const CardList = ({ campaignsList }: Props) => {
   const items = campaignsList.map((address) => ({
     key: address,
     header: <div className={"header " + styles.container}>{address}</div>,
