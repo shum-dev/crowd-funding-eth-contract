@@ -1,6 +1,8 @@
 import { Button, Header } from "semantic-ui-react";
 import Link from "next/link";
 
+import { initialErrorHandler } from "utils/initialErrorHandler";
+
 import { CardList } from "components/CardList";
 import campaignFactory from "ethereum/campaignFactory";
 
@@ -29,9 +31,16 @@ export default function IndexPage({ campaigns }: Props) {
 }
 
 IndexPage.getInitialProps = async () => {
-  const campaigns = await campaignFactory.methods.getDeployedCampaigns().call();
-
-  return {
-    campaigns,
-  };
+  try {
+    const campaigns = await campaignFactory.methods
+      .getDeployedCampaigns()
+      .call();
+    return {
+      campaigns,
+    };
+  } catch (err: any) {
+    return {
+      ...initialErrorHandler(err),
+    };
+  }
 };

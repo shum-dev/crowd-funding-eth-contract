@@ -3,6 +3,8 @@ import { useRouter } from "next/router";
 import { NextPageContext } from "next";
 import { Header, Grid } from "semantic-ui-react";
 
+import { initialErrorHandler } from "utils/initialErrorHandler";
+
 import { ContributeForm } from "components/forms/ContributeForm";
 import { ContractSpec } from "components/ContractSpec";
 
@@ -75,14 +77,20 @@ export default function CampaignPage({
 CampaignPage.getInitialProps = async (ctx: NextPageContext) => {
   const { address } = ctx.query;
 
-  const campaign = getCampaign(address as string);
-  const summary = (await campaign.methods.getSummary().call()) as string[];
+  try {
+    const campaign = getCampaign(address as string);
+    const summary = (await campaign.methods.getSummary().call()) as string[];
 
-  return {
-    minimumContribution: summary[0],
-    balance: summary[1],
-    requestCount: summary[2],
-    contributorsCount: summary[3],
-    manager: summary[4],
-  };
+    return {
+      minimumContribution: summary[0],
+      balance: summary[1],
+      requestCount: summary[2],
+      contributorsCount: summary[3],
+      manager: summary[4],
+    };
+  } catch (err: any) {
+    return {
+      ...initialErrorHandler(err),
+    };
+  }
 };

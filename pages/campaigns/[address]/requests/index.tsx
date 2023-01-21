@@ -3,6 +3,8 @@ import Link from "next/link";
 import { NextPageContext } from "next";
 import { Button, Header } from "semantic-ui-react";
 
+import { initialErrorHandler } from "utils/initialErrorHandler";
+
 import { RequestsTable } from "components/RequestsTable";
 
 import getCampaign from "ethereum/campaign";
@@ -52,20 +54,26 @@ export default function CampaignRequestsPage({
 CampaignRequestsPage.getInitialProps = async (ctx: NextPageContext) => {
   const { address } = ctx.query;
 
-  const campaign = getCampaign(address as string);
-  const contributorsCount = await campaign.methods.contributersCount().call();
-  const requestCount = (await campaign.methods
-    .getRequestsCount()
-    .call()) as number;
+  try {
+    const campaign = getCampaign(address as string);
+    const contributorsCount = await campaign.methods.contributersCount().call();
+    const requestCount = (await campaign.methods
+      .getRequestsCount()
+      .call()) as number;
 
-  const pendingRequests = Array.from({ length: requestCount }).map((_, index) =>
-    campaign.methods.requests(index).call()
-  );
+    const pendingRequests = Array.from({ length: requestCount }).map(
+      (_, index) => campaign.methods.requests(index).call()
+    );
 
-  const requests = await Promise.all(pendingRequests);
+    const requests = await Promise.all(pendingRequests);
 
-  return {
-    requests,
-    contributorsCount,
-  };
+    return {
+      requests,
+      contributorsCount,
+    };
+  } catch (err: any) {
+    return {
+      ...initialErrorHandler(err),
+    };
+  }
 };
