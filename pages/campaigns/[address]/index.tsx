@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { NextPageContext } from "next";
+import { GetServerSideProps } from "next";
 import { Header, Grid } from "semantic-ui-react";
-
-import { initialErrorHandler } from "utils/initialErrorHandler";
 
 import { ContributeForm } from "components/forms/ContributeForm";
 import { ContractSpec } from "components/ContractSpec";
@@ -59,7 +57,16 @@ export default function CampaignPage({
 
   return (
     <>
-      <Header as="h1">Campaign #{address}</Header>
+      <Header
+        as="h1"
+        title={address}
+        style={{
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+        }}
+      >
+        Campaign #{address}
+      </Header>
 
       <Grid columns={2} stackable reversed="mobile">
         <Grid.Column width={10}>
@@ -74,23 +81,34 @@ export default function CampaignPage({
   );
 }
 
-CampaignPage.getInitialProps = async (ctx: NextPageContext) => {
-  const { address } = ctx.query;
+type SSProps = {
+  minimumContribution: string;
+  balance: string;
+  requestCount: string;
+  contributorsCount: string;
+  manager: string;
+};
 
-  try {
-    const campaign = getCampaign(address as string);
-    const summary = (await campaign.methods.getSummary().call()) as string[];
+type QueryType = {
+  address: string;
+};
 
-    return {
+export const getServerSideProps: GetServerSideProps<
+  SSProps,
+  QueryType
+> = async (context) => {
+  const { address } = context.params as QueryType;
+
+  const campaign = getCampaign(address);
+  const summary = (await campaign.methods.getSummary().call()) as string[];
+
+  return {
+    props: {
       minimumContribution: summary[0],
       balance: summary[1],
       requestCount: summary[2],
       contributorsCount: summary[3],
       manager: summary[4],
-    };
-  } catch (err: any) {
-    return {
-      ...initialErrorHandler(err),
-    };
-  }
+    },
+  };
 };

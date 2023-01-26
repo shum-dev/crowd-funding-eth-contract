@@ -1,6 +1,6 @@
 import Web3 from "web3";
 
-const INFURA_SEPOLIA = process.env.NEXT_PUBLIC_INFURA_SEPOLIA;
+const INFURA_SEPOLIA = process.env.INFURA_SEPOLIA;
 let web3: Web3;
 
 if (typeof window !== "undefined" && window.ethereum !== undefined) {

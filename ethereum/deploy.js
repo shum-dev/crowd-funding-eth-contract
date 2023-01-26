@@ -7,7 +7,7 @@ const Web3 = require("web3");
 
 const compiledFactory = require("./build/CampaignFactory.json");
 
-const INFURA_SEPOLIA = process.env.NEXT_PUBLIC_INFURA_SEPOLIA;
+const INFURA_SEPOLIA = process.env.INFURA_SEPOLIA;
 const MNEMONIC = process.env.MNEMONIC;
 
 const provider = new HDWalletProvider(MNEMONIC, INFURA_SEPOLIA);

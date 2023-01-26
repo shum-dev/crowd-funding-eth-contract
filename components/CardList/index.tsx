@@ -9,6 +9,7 @@ type Props = {
 
 export const CardList = ({ campaignsList }: Props) => {
   const items = campaignsList.map((address) => ({
+    title: address,
     key: address,
     header: <div className={"header " + styles.container}>{address}</div>,
     description: <Link href={`/campaigns/${address}`}>View Campaign</Link>,
