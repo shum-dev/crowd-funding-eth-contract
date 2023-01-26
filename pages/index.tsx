@@ -9,7 +9,6 @@ type Props = {
 };
 
 export default function IndexPage({ campaigns }: Props) {
-  console.log({ campaigns });
   return (
     <>
       <Header as="h1">Open Campaigns</Header>

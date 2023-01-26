@@ -10,6 +10,8 @@
   "scripts": {
     "test": "mocha",
     "dev": "next dev",
+    "build": "next build",
+    "start": "next start -p 8085",
     "contract:compile": "node ethereum/compile.js",
     "contract:deploy": "node ethereum/deploy.js"
   },
