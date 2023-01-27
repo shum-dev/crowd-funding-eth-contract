@@ -12,9 +12,12 @@ The funding process consists of several steps:
 
 4. Spend funds: The manager has the authority to approve and spend money from the pool only if a majority of investors have approved the spending proposal.
 
-## Requirements
+## Requirements (as client)
+To interact with the contract, you need to have Metamask installed in your browser and an active wallet connected to the Sepolia network.
 
-This app needs the access to the Ethereum Sepolia test network so you need an active Infura account with valid Infura's API key to the Sepolia node. On top of that you also need an active Ethereum wallet connected to the Sepolia network.
+## Requirements (as developer)
+
+To develop this app, you must have access to the Ethereum Sepolia test network. This requires an active Infura account with a valid API key for the Sepolia node, as well as an active Ethereum wallet connected to the Sepolia network.
 
 Then create .env file with INFURA_SEPOLIA and MNEMONIC as shown in .env.example.
 
