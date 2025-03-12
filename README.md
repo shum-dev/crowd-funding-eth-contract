@@ -13,7 +13,8 @@ The funding process consists of several steps:
 4. Spend funds: The manager has the authority to approve and spend money from the pool only if a majority of investors have approved the spending proposal.
 
 ## Requirements (as client)
-To interact with the contract, you need to have Metamask installed in your browser and an active wallet connected to the Sepolia network.
+To interact with the contract, you need to have Metamask installed in your browser and an active wallet connected to the Sepolia network. As you visit the site, you'll see a MetaMask authentication window appear:  
+<img src="images/metamask.png" alt="Description" width="200" >
 
 ## Requirements (as developer)
 
