@@ -73,7 +73,7 @@ Here you can create new Campaign and set the minimum amount of contribution to p
 ### Campaign Details
 
 Detailed information about particular Campaign. Here you can contribute to the campaign and become the investor.
-![](images/campaign-details.png)
+![](images/campaign-details.png)  
 By clicking on the "View Requests" you get information about all the spend requests.
 
 ### Spend Requests
@@ -83,7 +83,7 @@ On this page, all spending requests can be viewed. The manager has the ability t
 
 ### New Spend Requests
 
-On this page, the manager can create new spending request.
+On this page, the manager can create new spending request.  
 ![](images/create-new-request.png)
 
 ## Tech Stack & Technologies
